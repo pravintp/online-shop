@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from shop.models import Product
+from orders.models import OrderItem
 
 
 class Cart(object):
@@ -61,3 +62,13 @@ class Cart(object):
 
     def __len__(self):
         return sum(item["quantity"] for item in self.cart.values())
+
+    def add_all_items_in_the_cart_to_order_and_clear_the_cart(self, order):
+        for item in self.cart:
+            OrderItem.objects.create(
+                order=order,
+                product=item["product"],
+                price=item["price"],
+                quantity=item["quantity"],
+            )
+        self.cart.clear()
