@@ -14,6 +14,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    braintree_id = models.CharField(max_length=150, blank=True)
 
     class Meta:
         ordering = ("-created",)
@@ -23,6 +24,11 @@ class Order(models.Model):
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
+
+    def success(self, transaction_id):
+        self.paid = True
+        self.braintree_id = transaction_id
+        self.save()
 
 
 class OrderItem(models.Model):
