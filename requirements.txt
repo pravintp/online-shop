@@ -1,8 +1,10 @@
 braintree==3.59.0
 celery==4.4.2
+django-parler==2.0.1
 Django==3.0.14
 Pillow==7.0.0
 pre-commit==2.15.0
 PyYAML==6.0
+django-rosetta==0.9.3
 toml==0.10.2
 WeasyPrint==51
